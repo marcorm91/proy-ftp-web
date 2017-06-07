@@ -35,14 +35,15 @@ public class CSubidaPubl extends HttpServlet {
      */
     public CSubidaPubl() {
         super();
-    	conexionBD = new Conexion();
-		modeloFicheros = new MFicheros(conexionBD.getConexion());
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		conexionBD = new Conexion();
+		modeloFicheros = new MFicheros(conexionBD.getConexion());
 		
 		hs = request.getSession();
 		String usuario;
@@ -90,6 +91,13 @@ public class CSubidaPubl extends HttpServlet {
 			// Si la session es nula, redirigimos a index.jsp
 			response.sendRedirect("index.jsp");
 		}
+		
+		try {
+  			conexionBD.getConexion().close();
+  		} catch (SQLException e) {
+  			e.printStackTrace();
+  		}
+		
 	}
 
 	/**
