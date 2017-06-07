@@ -27,8 +27,6 @@ public class CEliminar extends HttpServlet {
      */
     public CEliminar() {
         super();
-        conexionBD = new Conexion();
-        modeloFicheros = new MFicheros(conexionBD.getConexion());
     }
 
 	/**
@@ -36,6 +34,9 @@ public class CEliminar extends HttpServlet {
 	 * Elimina el fichero del directorio del usuario.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		conexionBD = new Conexion();
+        	modeloFicheros = new MFicheros(conexionBD.getConexion());
 		
 		hs = request.getSession();
 		File dir;
@@ -69,6 +70,13 @@ public class CEliminar extends HttpServlet {
 			// index.jsp
 			response.sendRedirect("index.jsp");
 		}
+		
+		
+		try {
+  			conexionBD.getConexion().close();
+  		} catch (SQLException e) {
+  			e.printStackTrace();
+  		}
 		
 	}
 
