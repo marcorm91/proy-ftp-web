@@ -36,8 +36,6 @@ public class CSubidaPers extends HttpServlet {
      */
     public CSubidaPers() {
         super();
-    	conexionBD = new Conexion();
-		modeloFicheros = new MFicheros(conexionBD.getConexion());
     }
 
 	/**
@@ -45,7 +43,10 @@ public class CSubidaPers extends HttpServlet {
 	 * Se encargará de la subida de ficheros personales al directorio que le corresponda al usuario.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-				
+			
+		conexionBD = new Conexion();
+		modeloFicheros = new MFicheros(conexionBD.getConexion());
+		
 		hs = request.getSession();
 		String usuario;
 		
@@ -92,6 +93,14 @@ public class CSubidaPers extends HttpServlet {
 		}else{
 			response.sendRedirect("index.jsp");
 		}
+		
+		
+		try {
+  			conexionBD.getConexion().close();
+  		} catch (SQLException e) {
+  			e.printStackTrace();
+  		}
+		
 	}
 
 	/**
